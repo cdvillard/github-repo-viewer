@@ -1,44 +1,16 @@
 // import { useEffect, useState } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const [username, setUsername] = useState("");
-  const [user, setUser] = useState({});
-  const [repos, setRepos] = useState([]);
-
-  // useEffect(() => {
-  //   requestRepos();
-  // }, []);
-
-  async function requestRepos() {
-    try {
-      const user = await fetch(`https://api.github.com/users/${username}`).then(
-        (response) => {
-          return response.json();
-        }
-      );
-
-      const repos = await fetch(`https://api.github.com/users/${username}/repos`).then(
-        (response) => {
-          return response.json();
-        }
-      );
-
-      console.log('completed requests', [user, repos]);
-      setUser(user);
-      setRepos(repos);
-    } catch (error) {
-      console.log("Error: ", error);
-
-      throw (error);
-    }
-  }
+  const navigate = useNavigate();
 
   return (
     <div>
       <form onSubmit={(e) => {
         e.preventDefault();
-        requestRepos();
+        navigate(`/${username}`);
       }}>
         <label htmlFor="user">
           Username
@@ -46,13 +18,6 @@ const Search = () => {
         </label>
         <button>Submit</button>
       </form>
-      <ul>
-        {repos.map((repo, index) => (
-          <li key={index}>
-            {repo.name}
-          </li>
-        ))}
-      </ul>
     </div>
   )
 }
