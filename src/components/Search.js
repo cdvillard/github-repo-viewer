@@ -1,13 +1,13 @@
-// import { useEffect, useState } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Search = () => {
+const Search = ({ error }) => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   return (
     <div>
+      {error ? <p>{error}</p> : ''}
       <form onSubmit={(e) => {
         e.preventDefault();
         navigate(`/${username}`);
