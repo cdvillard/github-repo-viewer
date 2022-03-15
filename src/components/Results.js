@@ -6,7 +6,6 @@ const Results = () => {
   const { username } = useParams();
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
-  const [hasError, setError] = useState(false);
   const [pagination, updatePagination] = useState("");
   const handleError = useErrorHandler();
 
@@ -56,17 +55,16 @@ const Results = () => {
 
   return (
     <>
-      {hasError && <p>Something went wrong</p>}
-      {!hasError && <div>
-      <h1>{user.name}</h1>
-      <ul>
-        {repos.map((repo, index) => (
-          <li key={index}>
-            {repo.name}
-          </li>
-        ))}
-      </ul>
-      </div>}
+      <div>
+        <h1>{user.name}</h1>
+        <ul>
+          {repos.map((repo, index) => (
+            <li key={index}>
+              {repo.name}
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   )
 }
