@@ -10,8 +10,6 @@ const Profile = () => {
   const { username } = useParams();
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
-  const [isLoadingUser, updateLoadingUser] = useState(false);
-  const [isLoadingRepos, updateLoadingRepos] = useState(false);
   const [repoUrl, setRepoUrl] = useState(`${apiEndpoint}/users/${username}/repos`)
   const handleError = useErrorHandler();
 
@@ -20,8 +18,6 @@ const Profile = () => {
   }, []);
 
   async function sendInitialRequestForUserAndRepos() {
-    updateLoadingUser(true);
-
     const user = await fetch(
       `${apiEndpoint}/users/${username}`,
       {
@@ -44,7 +40,6 @@ const Profile = () => {
     );
 
     setUser(user);
-    updateLoadingUser(false);
 
     /*
       If we don't receive a user back, we shouldn't run a second API call for no reason.
@@ -56,8 +51,6 @@ const Profile = () => {
   }
 
   async function requestRepos() {
-    updateLoadingRepos(true);
-
     const repos = await fetch(
       repoUrl,
       {
@@ -94,13 +87,12 @@ const Profile = () => {
     );
 
     setRepos(previousRepoList => [...previousRepoList, ...repos]);
-    updateLoadingRepos(false);
   }
 
   return (
     <div>
-      {isLoadingUser ? <p>Loading...</p> : <User user={user} />}
-      {(!user || isLoadingRepos) ? <p>Loading...</p> : <Repos repos={repos} />}
+      <User user={user} />
+      <Repos repos={repos} />
       {repoUrl !== "" && <button onClick={requestRepos}>Load More</button>}
     </div>
   )
