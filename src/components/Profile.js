@@ -10,7 +10,7 @@ const Profile = () => {
   const { username } = useParams();
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
-  const [repoUrl, setRepoUrl] = useState(`${apiEndpoint}/users/${username}/repos`)
+  const [repoUrl, setRepoUrl] = useState(`https://api.github.com/users/${username}/repos`)
   const handleError = useErrorHandler();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Profile = () => {
 
   async function sendInitialRequestForUserAndRepos() {
     const user = await fetch(
-      `${apiEndpoint}/users/${username}`,
+      `https://api.github.com/users/${username}`,
       {
         headers: {
           'Authorization': `token ${authToken}`
