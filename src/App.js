@@ -13,7 +13,6 @@ const App = () => {
     <StrictMode>
       <BrowserRouter>
         <div>
-          Hello HPE!
           <ErrorBoundary
             FallbackComponent={ErrorFallback}>
             <Routes>

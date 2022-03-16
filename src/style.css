@@ -1,0 +1,85 @@
+@import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props/normalize.min.css";
+
+body {
+  max-width: 85ch;
+  margin: 0 auto;
+  padding: 10rem 0;
+}
+
+.intro-header, .intro {
+  text-align: center;
+  max-inline-size: none;
+  margin-bottom: var(--size-5);
+}
+
+.search, .search .user-input {
+  display: grid;
+  justify-content: center;
+  gap: var(--size-3);
+}
+
+.search .user-input input {
+  border: var(--border-size-1) solid var(--gray-5);
+}
+
+.user {
+  display: grid;
+  grid-template-columns: var(--size-12) 3fr;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--size-5);
+}
+
+.user .avatar {
+  height: var(--size-12);
+  border-radius: 50%;
+}
+
+.user .name {
+  margin-bottom: 0;
+}
+
+.user .handle{
+  font-size: var(--font-size-3);
+  font-weight: 700;
+  justify-self: center;
+}
+
+.repos {
+  display: grid;
+}
+
+.repos .repo {
+  display: grid;
+  outline: var(--border-size-1) solid var(--gray-5);
+  background-color: var(--gray-3);
+  padding: var(--size-2);
+}
+
+.repos .repo:hover {
+  outline-width: var(--border-size-4);
+  transition: outline .200s linear;
+}
+
+.repos .repo .details {
+  margin-top: var(--size-3);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+}
+
+.repos .repo .details .tooltip {
+  position: relative;
+}
+
+.repos .repo .details .tooltip:hover::before {
+  display: auto;
+}
+
+.repos .repo .details .tooltip::after {
+  content: "?";
+  position: absolute;
+  font-size: .75rem;
+}

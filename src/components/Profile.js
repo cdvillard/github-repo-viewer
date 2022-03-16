@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useErrorHandler } from "react-error-boundary";
 import { useParams } from "react-router-dom";
 import Repos from "./Repos";
+import User from "./User";
 
 const Profile = () => {
   const authToken = process.env.GITHUB_AUTH_TOKEN;
@@ -9,6 +10,8 @@ const Profile = () => {
   const { username } = useParams();
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
+  const [isLoadingUser, updateLoadingUser] = useState(false);
+  const [isLoadingRepos, updateLoadingRepos] = useState(false);
   const [repoUrl, setRepoUrl] = useState(`${apiEndpoint}/users/${username}/repos`)
   const handleError = useErrorHandler();
 
@@ -17,6 +20,8 @@ const Profile = () => {
   }, []);
 
   async function sendInitialRequestForUserAndRepos() {
+    updateLoadingUser(true);
+
     const user = await fetch(
       `${apiEndpoint}/users/${username}`,
       {
@@ -39,6 +44,7 @@ const Profile = () => {
     );
 
     setUser(user);
+    updateLoadingUser(false);
 
     /*
       If we don't receive a user back, we shouldn't run a second API call for no reason.
@@ -50,6 +56,8 @@ const Profile = () => {
   }
 
   async function requestRepos() {
+    updateLoadingRepos(true);
+
     const repos = await fetch(
       repoUrl,
       {
@@ -59,12 +67,19 @@ const Profile = () => {
       }
     ).then(
       (response) => {
+        let url = "";
+
         const pagination = response.headers.get('link');
-        console.log('pagination', pagination);
+
+        if (!pagination) {
+          url = "";
+          setRepoUrl(url);
+
+          return response.json();
+        }
+
         const pages = pagination.split(',');
         const next = pages.filter(page => page.includes("rel=\"next\""))[0];
-        console.log('next', next);
-        let url = "";
 
         if (next) {
           const leftAngleBracket = next.indexOf('<');
@@ -73,30 +88,20 @@ const Profile = () => {
         }
 
         setRepoUrl(url);
-        console.log('url', url);
 
         return response.json();
       }
     );
 
     setRepos(previousRepoList => [...previousRepoList, ...repos]);
-  }
-
-  const LoadMoreButton = ({ nextPage, func }) => {
-    if (nextPage !== "") {
-      return (
-        <button onClick={func}>Load More</button>
-      )
-    }
-
-    return null;
+    updateLoadingRepos(false);
   }
 
   return (
     <div>
-      <h1>{user.name}</h1>
-      <Repos repos={repos} />
-      <LoadMoreButton nextPage={repoUrl} func={requestRepos} />
+      {isLoadingUser ? <p>Loading...</p> : <User user={user} />}
+      {(!user || isLoadingRepos) ? <p>Loading...</p> : <Repos repos={repos} />}
+      {repoUrl !== "" && <button onClick={requestRepos}>Load More</button>}
     </div>
   )
 }
