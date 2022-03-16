@@ -22,7 +22,7 @@ To run this application smoothly and avoid the Github API's rate limiting, you'l
 
 Once you've generated a token for this project, create a new `.env` file using the variables in `.env-example`.
 
-```
+```shell
 # .env-example
 
 GITHUB_AUTH_TOKEN=PUT_YOUR_GITHUB_TOKEN_HERE
