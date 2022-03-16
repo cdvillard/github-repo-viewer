@@ -2,39 +2,28 @@ import { render } from "react-dom";
 import { StrictMode } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ErrorFallback from "./components/ErrorFallback";
+import NotFound from "./components/NotFound";
+import Profile from "./components/Profile";
 import Search from "./components/Search";
-import Results from "./components/Results";
-
-function ErrorFallback({ error }) {
-  return (
-    <div role="alert">
-      <h1>Something went wrong:</h1>
-      <pre style={{ color: 'red' }}>{error.message}</pre>
-    </div>
-  )
-}
-
-function NotFound() {
-  return (
-    <div>404: page not found</div>
-  )
-}
 
 const App = () => {
+
   return (
     <StrictMode>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <BrowserRouter>
-          <div>
-            Hello HPE!
+      <BrowserRouter>
+        <div>
+          Hello HPE!
+          <ErrorBoundary
+            FallbackComponent={ErrorFallback}>
             <Routes>
-              <Route path="*" element={<NotFound />} />
               <Route path="/" element={<Search />} />
-              <Route path="/:username" element={<Results />} />
+              <Route path="/:username" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
+          </ErrorBoundary>
           </div>
-        </BrowserRouter>
-      </ErrorBoundary>
+      </BrowserRouter>
     </StrictMode>
   );
 };
