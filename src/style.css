@@ -57,6 +57,12 @@ body {
   padding: var(--size-2);
 }
 
+@media(prefers-color-scheme: dark) {
+  .repos .repo {
+    background-color: var(--gray-9);
+  }
+}
+
 .repos .repo:hover {
   outline-width: var(--border-size-4);
   transition: outline .200s linear;
