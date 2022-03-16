@@ -1,8 +1,8 @@
-# Github Profile Viewer
+# Github Repo Viewer
 
-This Github profile viewer is a simple user lookup tool that return a paginated list of a selected user's repos. It's built using React and bundled using Parcel.
+This Github repo viewer is a simple user lookup tool that returns a paginated list of a selected user's repos. It's built using React and bundled using Parcel.
 
-App Dependencies:
+## App Dependencies
 
 - React
 - React DOM
